@@ -1,0 +1,8 @@
+.activeBoard{
+    background-color: rgba(173, 216, 230, 0.639);
+}
+
+.inactiveBoard{
+    background-color: rgba(173, 230, 220, 0.639);
+}
+
