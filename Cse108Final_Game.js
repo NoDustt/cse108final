@@ -48,6 +48,8 @@ const winningGameStates = [
     ["game3","game5","game7"]
 ]
 
+const gamelist = ["game1", "game2", "game3", "game4", "game5", "game6", "game7", "game8", "game9"]
+
 
 function createGame(gameJsonFile){
     for(var key in gameJsonFile){
@@ -73,6 +75,7 @@ createGame(gameJsonFile)
 function determineBoardState(gameJsonFile, boardActivator){
     console.log(boardActivator)
     let check = gameJsonFile[boardActivator]["game"]
+    let winner = 0
     winningBoardStates.forEach(state => {
         let check1 = check[state[0]-1]
         let check2 = check[state[1]-1]
@@ -81,17 +84,23 @@ function determineBoardState(gameJsonFile, boardActivator){
             if(check1 == 1){
                 console.log("X is the Winner!")
                 gameJsonFile[boardActivator]["status"] = 1
+                document.getElementById(boardActivator).classList.add("xWinner")
+                winner = 1
             }
             else{
                 console.log("O is the Winner!!")
                 gameJsonFile[boardActivator]["status"] = -1
+                document.getElementById(boardActivator).classList.add("oWinner")
+                winner = 1
             }
         }
-        else if(gameJsonFile[boardActivator]["active"] == 8){
-            console.log("It's a draw!!")
-            gameJsonFile[boardActivator]["status"] = 0
-        }
+        
     })
+    if(gameJsonFile[boardActivator]["active"] == 8 && winner != 1){
+        console.log("It's a draw!!")
+        gameJsonFile[boardActivator]["status"] = 0
+        document.getElementById(boardActivator).classList.add("draw")
+    }
 }
 
 function determineWinner(gameJsonFile){
@@ -109,19 +118,30 @@ function determineWinner(gameJsonFile){
                 console.log("O is the Game Winner")
             }
         }
-        else if(gameJsonFile["active"] == 8){
+        if(gameJsonFile["active"] == 8){
             console.log("It's a draw!!")
-            gameJsonFile[boardActivator]["status"] = 0
+            gameJsonFile[boardActivator]["status"] = 2
         }
     })
 }
 
-
+function setAllBoardsInactive(){
+    gamelist.forEach(game => {
+        let temp = document.getElementById(game)
+        if(temp.classList.contains("finished")){
+        }
+        else{
+            temp.classList.remove("activeBoard")
+            temp.classList.add("inactiveBoard")
+        }
+        
+    });
+}
 
 function createBoard(gameJsonFile){
     for(key in gameJsonFile){
         if(key == "turn"){
-            document.getElementById("turnStatus").innerHTML = gameJsonFile[key]
+            // document.getElementById("turnStatus").innerHTML = gameJsonFile[key]
         }
         else if(key == "activeBoard" || key == "active"){
         }
@@ -141,10 +161,11 @@ function createBoard(gameJsonFile){
                     button.innerHTML = ""
                     button.row = i
                     button.col = j
+                    button.classList.add("cell")
                     button.addEventListener("click", function() {
                         
                         console.log(gameJsonFile)
-                        if((this.parentElement.parentElement.parentElement.id == gameJsonFile["activeBoard"] || gameJsonFile["activeBoard"] == "") && gameJsonFile[this.parentElement.parentElement.parentElement.id]["status"] == ""){
+                        if((this.parentElement.parentElement.parentElement.id == gameJsonFile["activeBoard"] || gameJsonFile["activeBoard"] == "") && gameJsonFile[this.parentElement.parentElement.parentElement.id]["status"] == "" && this.innerHTML == ""){
                             if(gameJsonFile["activeBoard"] != "" && gameJsonFile[this.boardActivator]["status"] != ""){
                                 console.log("reset")
                                 gameJsonFile["activeBoard"] = ""
@@ -175,6 +196,8 @@ function createBoard(gameJsonFile){
                 }
                 gameTable.append(tableRow)
             }
+            console.log(key)
+            console.log(document.getElementById("game1"))
             document.getElementById(key).appendChild(gameTable)
         }
     }

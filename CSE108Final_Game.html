@@ -1,52 +1,33 @@
 <!DOCTYPE html>
-<script src = "https://maraza.pythonanywhere.com/static/js/Game.js" defer></script>
+<!-- <script src = "https://maraza.pythonanywhere.com/static/js/Game.js" defer></script>
+<link rel = "stylesheet"  href = "https://maraza.pythonanywhere.com/static/css/Game.css"></link> -->
+<script src = "Cse108Final_Game.js" defer></script>
+<link rel = "stylesheet" href = "CSE108Final_Game.css">
+
 <head>
     <title>
         Game
     </title>
 </head>
 <body>
-    <h1>game</h1>
+    <h1 class = "activeBoard">game</h1>
     <div id = gameHolder>
         <table>
-            <tr>
-            <td>
-                <div id = game1></div>
-            </td>
-            <td>
-                <div id = game2></div>
-            </td>
-            <td>
-                <div id = game3></div>      
-            </td>
-            <td>
-                <div id = game3></div>
-            </td>
-            </tr>
-            <tr>
-            <td>
-                <div id = game4></div>
-            </td>
-            <td>
-                <div id = game5></div>
-            </td>
-            <td>
-                <div id = game6></div>
-            </td>
-            </tr>
-            <tr>
-            <td>
-                <div id = game7></div>
-            </td>
-            <td>
-                <div id = game8></div>
-            </td>
-            <td>
-                <div id = game9></div>
-            </td>
-            </tr>
-            
-
+        <tr>
+            <td class = "cell"><div id = "game1" class = "inactiveBoard"></div></td>
+            <td class = "cell"><div id = "game2" class = "inactiveBoard"></div></td>
+            <td class = "cell"><div id = "game3" class = "inactiveBoard"></div></td>
+        </tr>
+        <tr>
+            <td class = "cell"><div id = "game4" class = "inactiveBoard"></div></td>
+            <td class = "cell"><div id = "game5" class = "inactiveBoard"></div></td>
+            <td class = "cell"><div id = "game6" class = "inactiveBoard"></div></td>
+        </tr>
+        <tr>
+            <td class = "cell"><div id = "game7" class = "inactiveBoard"></div></td>
+            <td class = "cell"><div id = "game8" class = "inactiveBoard"></div></td>
+            <td class = "cell"><div id = "game9" class = "inactiveBoard"></div></td>
+        </tr>
         </table>
         
     </div>
