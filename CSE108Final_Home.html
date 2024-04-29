@@ -1,9 +1,65 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>
-        CSE108FinalHomePage
-    </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>home</h1>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">Home</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                {% if session['username'] %}
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login">Log in</a></li>
+                    <li><a href="/signup">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-demo">
+        {% if session['username'] %}
+            <li><a href="/logout">Logout</a></li>
+        {% else %}
+            <li><a href="/login">Log in</a></li>
+            <li><a href="/signup">Sign Up</a></li>
+        {% endif %}
+    </ul>
+
+    <div class="valign-wrapper" style="height:auto; min-height:100vh; width:100%;">
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m10 l8 offset-m1 offset-l2">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">Welcome, {% if session['username'] %}{{ session['username'] }}{% else %}Guest{% endif %}!</span>
+                            <p>{% if not session['username'] %}
+                                <a href="/login">Log in</a> or <a href="/signup">create an account</a> to enjoy full access.
+                            {% else %}
+                                Explore our features and enjoy your stay!
+                            {% endif %}</p>
+                        </div>
+                        <!-- <div class="card-action">
+                            <a href="/features">View Features</a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems, {});
+        });
+    </script>
 </body>
+</html>
