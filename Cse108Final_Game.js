@@ -11,7 +11,8 @@ const gameJsonFile = {
     game9:{game:[],status:"", active: 0},
     turn:1,
     activeBoard:"",
-    active:0
+    active:0,
+    playerType:""
 }
 
 const boardActivators = [
@@ -56,7 +57,7 @@ function createGame(gameJsonFile){
         if(key == "turn"){
             gameJsonFile[key] = 1
         }
-        else if(key == "activeBoard" || key == "active"){
+        else if(key == "activeBoard" || key == "active" || key == "playerType"){
             
         }
         else{
@@ -94,7 +95,7 @@ function determineBoardState(gameJsonFile, boardActivator){
         }
         
     })
-    if(gameJsonFile[boardActivator]["active"] == 8 && winner != 1){
+    if(gameJsonFile[boardActivator]["active"] == 9 && winner != 1){
         gameJsonFile[boardActivator]["status"] = 0
         document.getElementById(boardActivator).classList.add("draw")
     }
@@ -106,25 +107,26 @@ function determineWinner(gameJsonFile){
         let check2 = gameJsonFile[state[1]]["status"]
         let check3 = gameJsonFile[state[2]]["status"]
         if(check1 != 0 && check2 != 0 && check3 != 0 && check1 == check2 && check2 == check3){
-            console.log("someone won!")
             if(check1 == 1){
-                console.log("X is the Game Winner!")
-                setAllBoardsInactive()
+                setAllBoardsInactive(gameJsonFile)
+                document.getElementById("turnStatus").innerHTML = "X has won the game!"
             }
             else{
-                console.log("O is the Game Winner")
-                setAllBoardsInactive()
+                setAllBoardsInactive(gameJsonFile)
+                document.getElementById("turnStatus").innerHTML = "O has won the game!"
             }
         }
         if(gameJsonFile["active"] == 8){
             console.log("It's a draw!!")
             gameJsonFile[boardActivator]["status"] = 2
-            setAllBoardsInactive()
+            document.getElementById("turnStatus").innerHTML = "It's a draw!!"
+            setAllBoardsInactive(gameJsonFile)
         }
     })
+
 }
 
-function setAllBoardsInactive(){
+function setAllBoardsInactive(gameJsonFile){
     gamelist.forEach(game => {
         let temp = document.getElementById(game)
         if(temp.classList.contains("finished")){
@@ -133,16 +135,25 @@ function setAllBoardsInactive(){
             temp.classList.remove("activeBoard")
             temp.classList.add("inactiveBoard")
         }
-        
+        gameJsonFile["activeBoard"] = "done"
     });
+}
+
+function determineTurnState(gameJsonFile){
+    if(gameJsonFile["turn"]=="1"){
+        document.getElementById("turnStatus").innerHTML = "It is X's turn to play"
+    }
+    else{
+        document.getElementById("turnStatus").innerHTML = "It is O's turn to play"
+    }
 }
 
 function createBoard(gameJsonFile){
     for(key in gameJsonFile){
         if(key == "turn"){
-            document.getElementById("turnStatus").innerHTML = gameJsonFile[key]
+            document.getElementById("turnStatus").innerHTML = "It is X's turn to play"
         }
-        else if(key == "activeBoard" || key == "active"){
+        else if(key == "activeBoard" || key == "active" || key == "playerType"){
         }
         else{
             var gameTable = document.createElement("table")
@@ -160,36 +171,46 @@ function createBoard(gameJsonFile){
                     button.innerHTML = ""
                     button.row = i
                     button.col = j
-                    button.classList.add("cell")
+                    button.classList.add("cell","offHover")
                     button.addEventListener("click", function() {
                         if((this.parentElement.parentElement.parentElement.id == gameJsonFile["activeBoard"] || gameJsonFile["activeBoard"] == "") && (gameJsonFile[this.parentElement.parentElement.parentElement.id]["status"] == "" && this.innerHTML == "")){
-                            if(gameJsonFile[this.boardActivator]["status"] != ""){
-                                console.log("resetting")
+                            if(gameJsonFile[this.boardActivator]["status"] !== ""){
                                 gameJsonFile["activeBoard"] = ""
                                 document.getElementById(this.parentElement.parentElement.parentElement.id).classList.replace("activeBoard","inactiveBoard")
                             }
                             else{
                                 document.getElementById(this.parentElement.parentElement.parentElement.id).classList.replace("activeBoard","inactiveBoard")
                                 gameJsonFile["activeBoard"] = this.boardActivator
-                                console.log(this.boardActivator)
-                                console.log(document.getElementById(this.boardActivator))
                                 document.getElementById(this.boardActivator).classList.replace("inactiveBoard","activeBoard")
                             }
                             if(gameJsonFile["turn"] == 1){
                                 this.innerHTML = "X"
+                                this.classList.add("x")
                                 gameJsonFile["turn"] *= -1
                                 gameJsonFile[this.parentElement.parentElement.parentElement.id]["game"][(this.row*3 + this.col - 4)] = 1
-                                gameJsonFile[this.boardActivator]["active"]++
+                                gameJsonFile[this.parentElement.parentElement.parentElement.id]["active"]++
                             }
                             else{
                                 this.innerHTML = "O"
+                                this.classList.add("o")
                                 gameJsonFile["turn"] *= -1
                                 gameJsonFile[this.parentElement.parentElement.parentElement.id]["game"][(this.row*3 + this.col - 4)] = -1
-                                gameJsonFile[this.boardActivator]["active"]++
+                                gameJsonFile[this.parentElement.parentElement.parentElement.id]["active"]++
                             }
                             determineBoardState(gameJsonFile, this.parentElement.parentElement.parentElement.id)
+                            determineTurnState(gameJsonFile)
+                            if((gameJsonFile[this.parentElement.parentElement.parentElement.id]["status"])!== ""){
+                                gameJsonFile["activeBoard"] = ""
+                                document.getElementById(this.parentElement.parentElement.parentElement.id).classList.replace("activeBoard","inactiveBoard")
+                            }
                             determineWinner(gameJsonFile)
                         }
+                    })
+                    button.addEventListener("mouseover", function(){
+                        this.classList.replace("offHover", "hover")
+                    })
+                    button.addEventListener("mouseout", function(){
+                        this.classList.replace("hover","offHover")
                     })
                     tableData.appendChild(button)
                     tableRow.appendChild(tableData)
@@ -201,6 +222,20 @@ function createBoard(gameJsonFile){
     }
 }
 
+function updateBoard(gameJsonFile, boardActivator){
+    document.getElementById(boardActivator).click()
+}
 
+function turnState(gameJsonFile){
+    if(playerType == "x"){
+        if(true){
+
+        }
+    }
+    else{
+        
+    }
+}
 
 createBoard(gameJsonFile)
+

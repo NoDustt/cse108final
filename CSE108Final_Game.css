@@ -1,5 +1,5 @@
 .activeBoard{
-    background-color: black;
+    background-color: gray;
 
 }
 
@@ -22,7 +22,21 @@
 .cell{
     width:50px;
     height:50px;
+}
+
+.x{
     color:red;
 }
 
+.o{
+    color:blue
+}
 
+
+.hover{
+    background-color: rgb(251, 251, 184);
+}
+
+.offHover{
+    background-color: rgb(197, 197, 176);
+}
