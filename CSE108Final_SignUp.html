@@ -1,9 +1,68 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>
-        SignUpPage
-    </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp Page</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    
+<body class="forms">
+    <div class="valign-wrapper" style="height:auto; min-height:100vh; width:100%;">
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m8 l6 offset-m2 offset-l3">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">Sign Up</span>
+                            <form id="signupForm" action="/signup" method="post">
+                                <div class="input-field">
+                                    <input id="username" type="text" name="username" class="validate" required>
+                                    <label for="username">Username</label>
+                                </div>
+                                <div class="input-field">
+                                    <input id="password" type="password" name="password" class="validate" required>
+                                    <label for="password">Password</label>
+                                </div>
+                                <div class="input-field">
+                                    <input id="confirm_password" type="password" name="confirm_password" class="validate" required>
+                                    <label for="confirm_password">Confirm Password</label>
+                                </div>
+                                <button type="submit" class="btn waves-effect waves-light">Sign Up</button>
+                                <div id="errorMessage" class="red-text text-darken-2"></div>
+                                <div id="successMessage" class="green-text text-accent-4"></div>
+                            </form>
+                        </div>
+                        <div class="card-action">
+                            <p>Already have an account? <a href="/login">Log in here.</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
+</html>
+
+<script>
+document.getElementById('signupForm').onsubmit = function(event) {
+    event.preventDefault();
+    var formData = new FormData(this);
+
+    fetch('/signup', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data === 'User created successfully!') {
+            sessionStorage.setItem('signupSuccess', 'Account created successfully! Please log in.');
+            window.location.href = '/login';
+        } else {
+            document.getElementById('errorMessage').innerText = data;
+        }
+    })
+    .catch(error => console.error('Error:', error));
+};
+</script>
