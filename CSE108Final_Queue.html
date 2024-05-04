@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<title>
+    Queue
+</title>
+<body>
+    <a>Hello, {{ session['username'] }} You are currently in the queue. You will be placed into a game as soon as possible</a>
+</body>
+
+<script>
+
+    var intervalId = window.setInterval(function(){
+        var xml2 = new XMLHttpRequest()
+        xml2.open("GET", "/game/queue/" + "{{session['username']}}")
+        xml2.send()
+        xml2.onload = function(){
+            if(xml2.responseText != "waiting"){
+                window.location.href = "/game?seed=" + xml2.responseText
+            }
+
+        }
+    }, 1000);
+    document.addEventListener('DOMContentLoaded', function() {
+        var xml = new XMLHttpRequest()
+        xml.open("POST", "/game/queue/" + "{{session['username']}}")
+        xml.send()
+        xml.onload = function (){
+            console.log(xml.responseText)
+        }
+
+    });
+</script>

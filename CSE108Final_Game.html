@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- <script src = "https://maraza.pythonanywhere.com/static/js/Game.js" defer></script>
-<link rel = "stylesheet"  href = "https://maraza.pythonanywhere.com/static/css/Game.css"></link> -->
-<script src = "Cse108Final_Game.js" defer></script>
-<link rel = "stylesheet" href = "CSE108Final_Game.css">
+<script src = "https://maraza.pythonanywhere.com/static/js/Game.js" defer></script>
+<link rel = "stylesheet"  href = "https://maraza.pythonanywhere.com/static/css/Game.css">
+<!--<script src = "Cse108Final_Game.js" defer></script>-->
+<!--<link rel = "stylesheet" href = "CSE108Final_Game.css">-->
 
 <head>
     <title>
@@ -29,9 +29,13 @@
             <td class = "cell"><div id = "game9" class = "inactiveBoard"></div></td>
         </tr>
         </table>
-        
+
     </div>
     <div id = turnStatusHolder>
         <h1 id = turnStatusText>Turn Status:</h1> <h1 id = turnStatus></h1>
     </div>
 </body>
+
+<script>
+    var username = "{{session['username']}}"
+</script>
