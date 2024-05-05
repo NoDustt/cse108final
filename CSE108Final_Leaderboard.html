@@ -3,22 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Leaderboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Leaderboard</h1>
-    <table>
-        <tr>
-            <th>Username</th>
-            <th>Wins</th>
-            <th>Losses</th>
-        </tr>
-        {% for user in leaderboard %}
-        <tr>
-            <td>{{ user.username }}</td>
-            <td>{{ user.wins }}</td>
-            <td>{{ user.losses }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="/home" class="brand-logo center">Tic Tac Toe</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                {% if session['username'] %}
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login">Log in</a></li>
+                    <li><a href="/signup">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav> 
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m10 l8 offset-m1 offset-l2">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Leaderboard</span>
+                        <table class="highlight responsive-table">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Wins</th>
+                                    <th>Losses</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in leaderboard %}
+                                <tr>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.wins }}</td>
+                                    <td>{{ user.losses }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems, {});
+        });
+    </script>
 </body>
 </html>

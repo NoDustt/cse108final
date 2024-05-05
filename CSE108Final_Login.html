@@ -25,8 +25,26 @@
                                     <label for="password">Password</label>
                                 </div>
                                 <button type="submit" class="btn waves-effect waves-light">Login</button>
-                                <div id="errorMessage" class="red-text text-darken-2"></div>
-                                <div id="successMessage" class="green-text text-accent-4"></div>
+                                <div id="errorModal" class="modal">
+                                    <div class="modal-content">
+                                        <h4>Error</h4>
+                                        <p id="errorMessage"></p>
+                                    </div>
+                                    <br>
+                                    <div class="modal-footer">
+                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                                    </div>
+                                </div>
+                                <div id="successModal" class="modal">
+                                    <div class="modal-content">
+                                        <h4>Account Created</h4>
+                                        <p id="successMessage"></p>
+                                    </div>
+                                    <br>
+                                    <div class="modal-footer">
+                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                         <div class="card-action">
@@ -42,10 +60,14 @@
 </html>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+});
+
 document.getElementById('loginForm').onsubmit = function(event) {
     event.preventDefault();
     var formData = new FormData(this);
-    document.getElementById('successMessage').innerText = '';
 
     fetch('/login', {
         method: 'POST',
@@ -56,7 +78,9 @@ document.getElementById('loginForm').onsubmit = function(event) {
         if (data === 'Logged in successfully!') {
             window.location.href = '/home';
         } else {
-            document.getElementById('errorMessage').innerText = data; 
+            document.getElementById('errorMessage').innerText = data;
+            var instance = M.Modal.getInstance(document.getElementById('errorModal'));
+            instance.open(); 
         }
     })
     .catch(error => console.error('Error:', error));
@@ -66,6 +90,8 @@ window.onload = function() {
     const successMessage = sessionStorage.getItem('signupSuccess');
     if (successMessage) {
         document.getElementById('successMessage').innerText = successMessage;
+        var instance = M.Modal.getInstance(document.getElementById('successModal'));
+        instance.open(); 
         sessionStorage.removeItem('signupSuccess'); 
     }
 };

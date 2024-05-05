@@ -29,7 +29,7 @@ body {
 .card-action p {
     font-size: 16px;
     color: #666; 
-    margin: 20px 0; 
+    margin: 5px 0; 
 }
 
 .card-action a {
@@ -78,6 +78,8 @@ body {
 #errorMessage, #successMessage {
     font-weight: bold; 
     color: var(--dark-blue);
+    height: 0px;
+    display: block; 
 }
 
 header, footer {
@@ -114,4 +116,44 @@ footer {
 
 .btn:hover, .btn-large:hover, .btn-small:hover, .btn-floating:hover {
     background-color: var(--dark-blue);
+}
+
+.divider {
+    margin: 20px 0;
+    border: 0;
+    height: 1px;
+    border-color: #ccc; 
+}
+
+#errorModal.modal {
+    width: 50%;
+    max-width: 500px;
+    margin: 0 auto;
+    /* display: flex; */
+    flex-direction: column;
+}
+
+@media (max-width: 600px) {
+    .modal {
+        width: 80%;
+        max-width: none; 
+    }
+}
+
+.modal-content h4 {
+    color: var(--primary-blue);
+}
+
+.modal-content p {
+    color: black !important;
+}
+
+.modal-footer .modal-close {
+    background-color: var(--primary-blue); 
+    color: white;
+}
+
+.modal-content {
+    font-family: 'Roboto', sans-serif; 
+    padding: 20px;
 }

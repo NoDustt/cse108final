@@ -1,6 +1,6 @@
 # A very simple Flask Hello World app for you to get started with...
 
-import os
+import os, re
 from flask import Flask, render_template, send_from_directory, request, session, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, init_db, User
@@ -46,11 +46,14 @@ def signup():
         confirm_password = request.form['confirm_password']
 
         if password != confirm_password:
-            return 'Passwords do not match! Please try again.'
+            return 'Passwords do not match!'
 
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            return 'Username already exists! Please choose a different username.'   
+            return 'Username already exists!'
+        
+        if not re.match(r'(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,24}', password):
+            return 'Password must be 8-24 characters long, include at least one uppercase letter, one lowercase letter, and one number.'
 
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
         new_user = User(username=username, password_hash=hashed_password)
@@ -87,6 +90,18 @@ def logout():
 @app.route('/home')
 def home():
     return render_template('CSE108Final_Home.html')
+
+@app.route('/leaderboard')
+def leaderboard():
+    users = User.query.order_by(User.wins.desc()).all()
+    leaderboard_data = [{'username': user.username, 'wins': user.wins, 'losses': user.losses} for user in users]
+    return render_template('CSE108Final_Leaderboard.html', leaderboard=leaderboard_data)
+
+
+@app.route('/queue')
+def queue():
+    return render_template('CSE108Final_Queue.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

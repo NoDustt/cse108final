@@ -10,7 +10,7 @@
 <body>
     <nav>
         <div class="nav-wrapper">
-            <a href="#" class="brand-logo center">Home</a>
+            <a href="#" class="brand-logo center">Tic Tac Toe</a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 {% if session['username'] %}
@@ -44,6 +44,9 @@
                             {% else %}
                                 Explore our features and enjoy your stay!
                             {% endif %}</p>
+                            <hr class="divider">
+                            <a href="/" class="btn waves-effect waves-light">Play Game</a>
+                            <a href="/leaderboard" class="btn-flat waves-effect waves-light">View Leaderboard</a>
                         </div>
                         <!-- <div class="card-action">
                             <a href="/features">View Features</a>

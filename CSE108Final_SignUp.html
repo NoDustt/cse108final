@@ -29,8 +29,16 @@
                                     <label for="confirm_password">Confirm Password</label>
                                 </div>
                                 <button type="submit" class="btn waves-effect waves-light">Sign Up</button>
-                                <div id="errorMessage" class="red-text text-darken-2"></div>
-                                <div id="successMessage" class="green-text text-accent-4"></div>
+                                <div id="errorModal" class="modal">
+                                    <div class="modal-content">
+                                        <h4>Error</h4>
+                                        <p id="errorMessage"></p>
+                                    </div>
+                                    <br>
+                                    <div class="modal-footer">
+                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                         <div class="card-action">
@@ -46,6 +54,11 @@
 </html>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+});
+
 document.getElementById('signupForm').onsubmit = function(event) {
     event.preventDefault();
     var formData = new FormData(this);
@@ -61,6 +74,8 @@ document.getElementById('signupForm').onsubmit = function(event) {
             window.location.href = '/login';
         } else {
             document.getElementById('errorMessage').innerText = data;
+            var instance = M.Modal.getInstance(document.getElementById('errorModal'));
+            instance.open();
         }
     })
     .catch(error => console.error('Error:', error));
